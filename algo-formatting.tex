@@ -1,0 +1,58 @@
+% ALGORITHMS
+\usepackage[ruled,vlined]{algorithm2e}
+\SetKwProg{Fn}{Function}{}{}
+\SetKwComment{Comment}{$\triangleright$\ }{}
+\SetKwInput{KwIn}{In}
+\SetKwInput{KwOut}{Out}
+\SetKw{KwBreak}{break}
+
+% PROGRAM CODES
+\usepackage{listings}
+\usepackage{courier}
+
+% global program code settings
+\lstset{
+ language          = C++, % TODO: see above
+ basicstyle        = \bfseries\footnotesize\ttfamily,
+ keywordstyle      = \color{blue}\footnotesize\bfseries\ttfamily,
+ stringstyle       = \color{red}\footnotesize\ttfamily,
+ commentstyle      = \color{magenta}\footnotesize\ttfamily,
+ morecomment       = [l][\color{magenta}]{\#},
+ showstringspaces  = false,
+ breaklines        = true,
+ breakatwhitespace = true,
+ breakindent       = 2ex,
+ tabsize           = 2,
+ mathescape        = true
+}
+% global inline code settings
+\newcommand\inlinestyle{\lstset{
+ basicstyle        = \bfseries\small\ttfamily,
+ keywordstyle      = \color{blue}\bfseries\small\ttfamily,
+ stringstyle       = \color{red}\small\ttfamily,
+ commentstyle      = \color{magenta}\small\ttfamily
+}}
+
+% pseudo code environment
+\lstnewenvironment{Code}[1][]{}{}        % boxed
+\newcommand{\code}[1]{{\inlinestyle\lstinline{#1}}}    % inline
+
+% C/C++ style for highlighting
+\newcommand\cppstyle{\lstset{
+ language=C++
+}}
+% C/C++ environments
+\lstnewenvironment{Cpp}[1][]{\cppstyle \lstset{#1}}{}
+\newcommand\Cppexternal[2][]{{\cppstyle \lstinputlisting[#1]{#2}}}
+\newcommand\cpp[1]{{\cppstyle\inlinestyle\lstinline!#1!}}
+
+% Python style for highlighting
+\newcommand\pythonstyle{\lstset{
+ language=Python,
+ otherkeywords={self}             % Add keywords here
+}}
+% Python environments
+\lstnewenvironment{Python}[1][]{\pythonstyle \lstset{#1}}{}
+\newcommand\Pythonexternal[2][]{{\pythonstyle \lstinputlisting[#1]{#2}}}
+\newcommand\python[1]{{\pythonstyle\inlinestyle\lstinline!#1!}}
+

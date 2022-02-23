@@ -1,0 +1,220 @@
+\ProvidesPackage{preamble}
+
+% PARAMETER TO GREY OUT TEXT
+\usepackage{etoolbox}
+
+\newtoggle{greytext}
+%\toggletrue{greytext}
+\togglefalse{greytext}
+
+% PARAMETER TO SHORTEN DOCUMENT
+\newtoggle{shortdocument}
+\toggletrue{shortdocument}
+%\togglefalse{shortdocument}
+
+% PARAMETER TO SHOW COMMENTS
+\newtoggle{showcomments}
+\toggletrue{showcomments}
+
+% landscape 
+\usepackage{pdflscape}
+
+% decrease line spacing
+\setlength{\baselineskip}{0pt}
+\renewcommand{\baselinestretch}{0.00001}
+% change paper layout
+\usepackage[margin=0.25cm,twoside]{geometry}
+
+% header
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{\vspace*{-0.55cm}\colorbox{white}{\scriptsize\thepage}}
+\setlength{\footskip}{4pt}
+
+% comments
+\usepackage{comment}
+
+% colors
+\usepackage{color}
+\usepackage{xcolor}
+
+% multicol layout
+\usepackage{multicol}
+\setlength\columnsep{10pt}
+\setlength{\columnseprule}{0.1pt}
+
+% paragraph layout
+\setlength\parindent{0pt}	% indentation
+\setlength\parskip{2pt}		% space between paragraphs
+
+% language
+\usepackage[utf8]{inputenc}
+
+% fonts
+\usepackage{microtype}
+\usepackage{relsize}
+
+% figure settings
+\usepackage{pict2e} % load this before picture
+\usepackage{picture}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% tickz graphics
+\usepackage{tikz}
+\usetikzlibrary{calc,matrix,arrows,automata,fit}
+
+% plots
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.10}
+
+% float settings
+\usepackage{float}
+
+% referencing
+\usepackage{hyperref}
+
+% tables
+\usepackage{booktabs} % nicer tables
+\usepackage{array} % custom column types
+\usepackage{multirow} % span cells over multiple rows
+
+% lists
+\usepackage{enumitem}
+\setlist{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt,leftmargin=10pt}
+% advantages disadvantages
+\newcommand\pro{\item[$+$]}
+\newcommand\con{\item[$-$]}
+
+% center text environment
+\newenvironment{tightcenter}{%
+  \begin{center}
+  \vspace{-12pt}
+}{
+  \vspace{-12pt}
+  \end{center}
+}
+
+% math formatting
+\include{math-shortcuts.tex}
+
+% algorithm formatting
+\include{algo-formatting.tex}
+
+
+% --------------------------------------------------------------
+% --------- CUSTOM COMMANDS THAT HELP A LOT !!!! ---------------
+% --------------------------------------------------------------
+
+% package for conditional actions
+\usepackage{xifthen}
+
+% color definitions
+\definecolor{sectioncolor}{rgb}{0,0,205}
+\definecolor{custtitlecolor}{rgb}{0, 0, 0}
+\definecolor{todocolor}{rgb}{205, 0, 0}
+\definecolor{commentcolor}{rgb}{0,0,205}
+
+% todos
+\newcommand{\todo}[1]{\textcolor{todocolor}{\textbf{TODO:} #1}}
+
+% custom commands with optional argument
+\newcommand{\emptyarg}[1][]{\ifthenelse{\isempty{#1}}{}{#1}}
+% definition
+\newcommand{\Def}[1][]{
+\color{custtitlecolor}{\textbf{D.\emptyarg[#1]}}
+\kern+0.3ex}
+% theorem
+\newcommand{\Thm}[1][]{
+\color{custtitlecolor}{\textbf{T.\emptyarg[#1]}}
+\kern+0.3ex}
+% lemma
+\newcommand{\Lem}[1][]{
+\color{custtitlecolor}{\textbf{L.\emptyarg[#1]}}\kern+0.3ex}
+% example
+\newcommand{\Ex}[1][]{
+\color{custtitlecolor}{\textbf{Ex.\emptyarg[#1]}}\kern+0.3ex}
+% algorithm
+\newcommand{\Alg}[1][]{
+\color{custtitlecolor}{\textbf{Alg.\emptyarg[#1]}}\kern+0.3ex}
+
+% custom commands with no argument
+\newcommand{\Note}{\textbf{Note:} }
+\newcommand{\Important}{\textbf{Important:} }
+\newcommand{\Proof}{\textbf{Proof:} }
+\newcommand{\Intuition}{\textbf{Intuition:} }
+
+
+% raised rule:
+% - arg 1 (optional) how high to raise the rule
+% - arg 2 thickness of the rule
+\newcommand{\raisedrulefill}[2][0ex]{\leaders\hbox{\rule[#1]{1pt}{#2}}\hfill}
+
+% titles
+\usepackage[explicit]{titlesec}
+% use blue color
+\newcommand*{\mybox}[1]{%
+    \noindent\colorbox{sectioncolor}{%
+        \parbox{\dimexpr\columnwidth-2\fboxsep\relax}{%
+            \textcolor{white}{#1}}}}
+
+% multi-line titles
+\def\maxwidth{.78\linewidth}
+\newsavebox\tempbox
+\def\testwidth#1{%
+\sbox{\tempbox}{#1}%
+  \ifdim\wd\tempbox<\maxwidth
+    \usebox{\tempbox}%
+  \else
+    \parbox{\maxwidth}{#1}%
+  \fi}
+
+% part title format
+\renewcommand\thepart{{\HUGE $\mathcal{\Alph{part}}$.}}
+\titleformat{\part}{\Huge\bfseries}{\color{sectioncolor}\thepart\, #1}{0em}{}
+% section title format
+\makeatletter
+\renewcommand\section{
+\@startsection {section}{1}{\z@}{0pt}{0pt}{\normalfont\bfseries\mybox}}
+\makeatother
+% subsection title format
+\titleformat{\subsection}{\bfseries}
+    {\color{sectioncolor}\rule[0.3ex]{0pt}{0pt}
+    \thesubsection\,\rule[0.3ex]{8pt}{1.5pt}\,}{0em}
+    {\color{sectioncolor}\testwidth{#1}\,\raisedrulefill[0.3ex]{1.5pt}}
+% subsubsection title format
+\titleformat{\subsubsection}{\bfseries}
+    {\color{sectioncolor}\rule[0.35ex]{0pt}{0pt}
+    \thesubsubsection\,\rule[0.35ex]{8pt}{0.5pt}\,}{0em}
+    {\color{sectioncolor}\testwidth{#1}\,\raisedrulefill[0.35ex]{0.5pt}}
+% title spacings
+\titlespacing*{\part}
+{0pt}{1.2ex plus 1ex minus .2ex}{0ex plus .2ex}
+\titlespacing*{\section}
+{0pt}{0.8ex plus 1ex minus .2ex}{0ex plus .2ex}
+\titlespacing*{\subsection}
+{0pt}{0.7ex plus 1ex minus .2ex}{0ex plus .2ex}
+\titlespacing*{\subsubsection}
+{0pt}{0.5ex plus 1ex minus .2ex}{0ex plus .2ex}
+
+
+% inter titles
+\newcommand{\intertitle}[1]{\rule[0.35ex]{5pt}{0.5pt}
+\textbf{#1} 
+\raisedrulefill[0.35ex]{0.5pt}
+}
+
+% equation spacing
+\setlength{\abovedisplayskip}{3pt}%
+\setlength{\belowdisplayskip}{3pt}%
+\setlength{\abovedisplayshortskip}{3pt}%
+\setlength{\belowdisplayshortskip}{3pt}%
+\setlength{\jot}{3pt}% Inter-equation spacing
+
+
+
+
+

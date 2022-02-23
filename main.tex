@@ -1,0 +1,25 @@
+\documentclass[a4paper,10pt]{extarticle}
+
+\usepackage{preamble}
+
+
+\title{Cheatsheet Template}
+\author{Pius Kriemler}
+\date{2022}
+
+\begin{document}
+\begin{landscape}
+
+% optional comment visibility
+\iftoggle{showcomments}{
+\renewenvironment{comment}{\color{commentcolor}}{}}
+
+\begin{multicols*}{3}
+\raggedcolumns
+
+% add documents here, add \newpage in comment environment
+\input{template.tex}
+
+\end{multicols*}
+\end{landscape}
+\end{document}
